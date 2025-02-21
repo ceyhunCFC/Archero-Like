@@ -8,10 +8,16 @@ public class CharacterController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 input;
     public int Speed = 3;
+    private Animator animator;
+    [SerializeField] public int state = 0;
 
+    EnemyFinder enemyFinder;
+  
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        enemyFinder = GetComponent<EnemyFinder>();
     }
 
     // Update is called once per frame
@@ -28,8 +34,13 @@ public class CharacterController : MonoBehaviour
         
         if(input.x != 0 || input.z != 0)
         {
+            enemyFinder.targetEnemy = null;
+            state = 1;
             transform.rotation = Quaternion.LookRotation(rb.velocity);
         }
+        else if (enemyFinder.targetEnemy == null)
+        state = 0;
 
+        animator.SetInteger("State",state);
     }
 }
