@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
@@ -20,7 +18,6 @@ public class CharacterController : MonoBehaviour
         enemyFinder = GetComponent<EnemyFinder>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         input.x = joystick.Horizontal;
