@@ -2,16 +2,21 @@ using UnityEngine;
 
 public class SkillManager : MonoBehaviour
 {
-    public static SkillType activeSkill = SkillType.None;  // Aktif skill
+    public static SkillType activeSkill = SkillType.None;
 
-    public void SetActiveSkill(SkillType skill)
+    public static void SetActiveSkill(SkillType skillType)
     {
-        activeSkill = skill;
-        ApplySkillEffects();
-    }
-
-    void ApplySkillEffects()
-    {
-        
+        if (activeSkill == skillType)
+        {
+            // Eğer skill zaten aktifse, devre dışı bırak
+            activeSkill = SkillType.None;
+            Debug.Log("Skill deactivated: " + skillType);
+        }
+        else
+        {
+            // Yeni skill'i aktif et
+            activeSkill = skillType;
+            Debug.Log("Skill activated: " + skillType);
+        }
     }
 }
