@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4900423427409108974}
   - component: {fileID: 6639830515725326345}
   - component: {fileID: 5167149583479539385}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,6 +214,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7fc58119b439841c2a034ad76e6a4b49, type: 3}
       propertyPath: m_Name
       value: ArrowLowV2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7fc58119b439841c2a034ad76e6a4b49, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
