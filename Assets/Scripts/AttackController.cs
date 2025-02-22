@@ -68,7 +68,7 @@ public class AttackController : MonoBehaviour
         
         if (arrowRotation != null)
         {
-            arrowRotation.SetBounceDamage(false);
+            arrowRotation.SetBounceDamage(false,1);
         }
 
         if (arrowRb != null)
@@ -105,7 +105,7 @@ public class AttackController : MonoBehaviour
         
         if (arrowRotation != null)
         {
-            arrowRotation.SetBurnDamage(true);
+            arrowRotation.SetBurnDamage(true,3);
         }
 
         if (arrowRb != null)
@@ -144,7 +144,7 @@ public class AttackController : MonoBehaviour
             ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
             if (arrowRotation != null)
             {
-                arrowRotation.SetBounceDamage(false);
+                arrowRotation.SetBounceDamage(false,1);
             }
             
             if (arrowRb != null)
@@ -181,7 +181,7 @@ public class AttackController : MonoBehaviour
         ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
         if (arrowRotation != null)
         {
-            arrowRotation.SetBounceDamage(true);
+            arrowRotation.SetBounceDamage(true,1);
         }
 
         if (arrowRb != null)
@@ -214,11 +214,11 @@ public class AttackController : MonoBehaviour
         Animator anim = GetComponent<Animator>();
         if (anim != null)
         {
-            anim.speed = 2f; 
+            anim.speed = 4f; 
         }
 
         // Örnek: Ok çoğaltma skill'i 4 ok fırlatsın
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 4; i++)
         {
             GameObject arrow = Instantiate(arrowPrefab, new Vector3(transform.position.x + (i * 0.4f), transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
             Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
@@ -226,8 +226,8 @@ public class AttackController : MonoBehaviour
             ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
             if (arrowRotation != null)
             {
-                arrowRotation.SetBounceDamage(true);
-                arrowRotation.SetBurnDamage(true);
+                arrowRotation.SetBounceDamage(true,2);
+                arrowRotation.SetBurnDamage(true,6);
             }
 
             if (arrowRb != null)

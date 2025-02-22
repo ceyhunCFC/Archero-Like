@@ -12,13 +12,17 @@ public class ArrowRotation : MonoBehaviour
     private Transform lastHitEnemy; // Son hasar verilen düşman
     private bool hasBurnDamage = false; // Yanık hasarı aktif mi?
 
-    public void SetBounceDamage(bool enable)
+    private int BurnTime = 3;
+
+    public void SetBounceDamage(bool enable, int bounceCount)
     {
+        maxBounces = bounceCount;
         hasBounced = enable; // Sekme özelliğini aktif et
     }
 
-    public void SetBurnDamage(bool enable)
+    public void SetBurnDamage(bool enable, int burnTime)
     {
+        BurnTime = burnTime;
         hasBurnDamage = enable; // Yanık hasarını aktif et
     }
 
@@ -34,7 +38,7 @@ public class ArrowRotation : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(rb.velocity);
         }
     }
-
+    
     void OnCollisionEnter(Collision other)
     {
         if (hasHit) return;
@@ -50,7 +54,7 @@ public class ArrowRotation : MonoBehaviour
                 // Yanık hasarı aktifse
                 if (hasBurnDamage)
                 {
-                    enemy.ApplyBurnDamage(10, 3f); // 3 saniye boyunca 10 hasar
+                    enemy.ApplyBurnDamage(10, BurnTime); // 3 saniye boyunca 10 hasar
                 }
             }
 
