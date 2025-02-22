@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour
@@ -32,28 +33,35 @@ public class AttackController : MonoBehaviour
 
             case SkillType.BurnDamage:
                 Debug.Log("Burn Damage skill activated!");
-                // Yanık hasarı mantığını buraya ekle
+                BurnRegularAttack();
                 break;
 
             case SkillType.AttackSpeedIncrease:
                 Debug.Log("Attack Speed Increase skill activated!");
-                // Saldırı hızı artışı mantığını buraya ekle
+                RegularAttack(true);
                 break;
 
             case SkillType.RageMode:
                 Debug.Log("Rage Mode skill activated!");
-                // Öfke modu mantığını buraya ekle
+                RageModeAttack();
                 break;
 
             default:
                 Debug.Log("No skill active.");
-                RegularAttack();
+                RegularAttack(false);
                 break;
         }
     }
 
-    void RegularAttack()
+    void RegularAttack(bool Speedup)
     {
+        Animator anim = GetComponent<Animator>();
+        if (Speedup)
+        anim.speed = 2f; 
+        else
+        anim.speed = 1f; 
+        
+        
         GameObject arrow = Instantiate(arrowPrefab,new Vector3(transform.position.x,transform.position.y+0.5f,transform.position.z), Quaternion.identity);
         Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
         ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
@@ -83,8 +91,51 @@ public class AttackController : MonoBehaviour
         }
     }
 
+     void BurnRegularAttack()
+    {
+          Animator anim = GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.speed = 1f; 
+        }
+
+        GameObject arrow = Instantiate(arrowPrefab,new Vector3(transform.position.x,transform.position.y+0.5f,transform.position.z), Quaternion.identity);
+        Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
+        ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
+        
+        if (arrowRotation != null)
+        {
+            arrowRotation.SetBurnDamage(true);
+        }
+
+        if (arrowRb != null)
+        {
+            Vector3 targetPosition = enemyFinder.targetEnemy.transform.position + Vector3.up * 1f;
+            Vector3 direction = (targetPosition - transform.position).normalized;
+
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+
+            if (distanceToTarget <= closeRangeThreshold)
+            {
+                arrowRb.velocity = direction * arrowSpeed;
+            }
+            else
+            {
+                Vector3 initialVelocity = CalculateArcVelocity(transform.position, targetPosition, arcHeight);
+                arrowRb.velocity = initialVelocity;
+            }
+
+        }
+    }
+
     void ArrowMultiplicationAttack()
     {
+          Animator anim = GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.speed = 1f; 
+        }
+
         for (int i = 0; i < 2; i++) // 2 ok fırlat
         {
             GameObject arrow = Instantiate(arrowPrefab, new Vector3(transform.position.x + (i * 0.4f), transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
@@ -118,6 +169,12 @@ public class AttackController : MonoBehaviour
 
     void BounceDamageAttack()
     {
+         Animator anim = GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.speed = 1f; 
+        }
+
         GameObject arrow = Instantiate(arrowPrefab, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
         Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
         
@@ -147,6 +204,58 @@ public class AttackController : MonoBehaviour
           
         }
     }
+    
+    
+   void AttackSpeedIncreaseAttack()
+    {
+        RegularAttack(true);
+    }
+
+
+    void RageModeAttack()
+    {
+        // Tüm skill'lerin etkisini iki katına çıkar
+        Debug.Log("Rage Mode activated! All skills are doubled.");
+        
+        Animator anim = GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.speed = 2f; 
+        }
+
+        // Örnek: Ok çoğaltma skill'i 4 ok fırlatsın
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject arrow = Instantiate(arrowPrefab, new Vector3(transform.position.x + (i * 0.4f), transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
+            Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
+            
+            ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
+            if (arrowRotation != null)
+            {
+                arrowRotation.SetBounceDamage(true);
+                arrowRotation.SetBurnDamage(true);
+            }
+
+            if (arrowRb != null)
+            {
+                Vector3 targetPosition = enemyFinder.targetEnemy.transform.position + Vector3.up * 1f;
+                Vector3 direction = (targetPosition - transform.position).normalized;
+
+                float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+
+                if (distanceToTarget <= closeRangeThreshold)
+                {
+                    arrowRb.velocity = direction * arrowSpeed;
+                }
+                else
+                {
+                    Vector3 initialVelocity = CalculateArcVelocity(transform.position, targetPosition, arcHeight);
+                    arrowRb.velocity = initialVelocity;
+                }
+            }
+        }
+    }
+
     private Vector3 CalculateArcVelocity(Vector3 start, Vector3 end, float arcHeight)
     {
         Vector3 displacement = end - start;

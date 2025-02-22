@@ -1,60 +1,54 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 public class EnemyController : MonoBehaviour
 {
-    public static event Action<Transform> OnEnemyDied; 
+    public float health = 100;
+    public Image healthBar;
+    private bool isBurning = false; // Yanık hasarı aktif mi?
+    private float burnDamage = 0; // Yanık hasarı miktarı
+    private float burnDuration = 0; // Yanık süresi
 
-    int health = 100; 
-    public Image healthBar; 
-
-    void Start()
+    public void TakeDamage(float damage)
     {
-        UpdateHealthBar();  
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage; 
-        health = Mathf.Clamp(health, 0, 100);  
+        health -= damage;
+        healthBar.fillAmount = health / 100f;
 
         if (health <= 0)
         {
-            RemoveAllArrow();
-           
-          
-            OnEnemyDied?.Invoke(transform);
+            Respawn();
         }
-
-        UpdateHealthBar();  
     }
 
-    void UpdateHealthBar()
+    public void ApplyBurnDamage(int damage, float duration)
     {
-        healthBar.fillAmount = health / 100f; 
+        if (!isBurning)
+        {
+            isBurning = true;
+            burnDamage = damage;
+            burnDuration = duration;
+            StartCoroutine(Burn());
+        }
     }
 
-    void RespawnEnemy()
+    IEnumerator Burn()
     {
-        float z = UnityEngine.Random.Range(-2.5f, 11.5f);
-        float x = UnityEngine.Random.Range(-4f, 4f);
+        float timer = 0f;
+        while (timer < burnDuration)
+        {
+            TakeDamage(burnDamage); // Yanık hasarı uygula
+            timer += 1f; // Her saniye hasar ver
+            yield return new WaitForSeconds(1f);
+        }
+        isBurning = false;
+    }
+
+    void Respawn()
+    {
+        float z = Random.Range(-2.5f, 11.5f);
+        float x = Random.Range(-4f, 4f);
         transform.position = new Vector3(x, transform.position.y, z);
         health = 100;
-        UpdateHealthBar();
-    }
-
-    void RemoveAllArrow()
-    {
-        Transform[] arrows = transform.GetComponentsInChildren<Transform>();
-
-        foreach (var arrow in arrows)
-        {
-            if (arrow.name == "Arrow(Clone)")
-            {
-                Destroy(arrow.gameObject);
-            }
-        }
-
-        RespawnEnemy();
+        healthBar.fillAmount = 1f;
     }
 }

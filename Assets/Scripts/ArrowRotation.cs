@@ -10,10 +10,16 @@ public class ArrowRotation : MonoBehaviour
     private int maxBounces = 1; // Maksimum sekme sayısı (1 kez sekebilir)
     private float bounceRange = 50f; // Sekme mesafesi
     private Transform lastHitEnemy; // Son hasar verilen düşman
+    private bool hasBurnDamage = false; // Yanık hasarı aktif mi?
 
     public void SetBounceDamage(bool enable)
     {
         hasBounced = enable; // Sekme özelliğini aktif et
+    }
+
+    public void SetBurnDamage(bool enable)
+    {
+        hasBurnDamage = enable; // Yanık hasarını aktif et
     }
 
     void Start()
@@ -40,6 +46,12 @@ public class ArrowRotation : MonoBehaviour
             {
                 enemy.TakeDamage(30); // Düşmana hasar ver
                 lastHitEnemy = enemy.transform; // Son hasar verilen düşmanı kaydet
+
+                // Yanık hasarı aktifse
+                if (hasBurnDamage)
+                {
+                    enemy.ApplyBurnDamage(10, 3f); // 3 saniye boyunca 10 hasar
+                }
             }
 
             // Sekme özelliği aktifse ve maksimum sekme sayısına ulaşılmadıysa

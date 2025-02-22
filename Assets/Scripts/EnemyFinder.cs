@@ -10,12 +10,12 @@ public class EnemyFinder : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        EnemyController.OnEnemyDied += HandleEnemyDied;
+      //  EnemyController.OnEnemyDied += HandleEnemyDied;
     }
 
     void OnDestroy()
     {
-        EnemyController.OnEnemyDied -= HandleEnemyDied;
+       // EnemyController.OnEnemyDied -= HandleEnemyDied;
     }
 
     void HandleEnemyDied(Transform enemyTransform)

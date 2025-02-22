@@ -6768,6 +6768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f623387f7724f8ca605944df4d7408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   healthBar: {fileID: 1911374365}
 --- !u!54 &934797108
 Rigidbody:
@@ -10471,6 +10472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1249002492}
   - component: {fileID: 1249002493}
+  - component: {fileID: 1249002494}
   m_Layer: 5
   m_Name: SkillPanel
   m_TagString: Untagged
@@ -10528,6 +10530,24 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &1249002494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249002491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a0c21a7d372485db893165fa8e41e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillManager: {fileID: 919132149091229846}
+  arrowMultiplicationButton: {fileID: 1047417110}
+  bounceDamageButton: {fileID: 1458231807}
+  burnDamageButton: {fileID: 1513496268}
+  attackSpeedButton: {fileID: 1244594526}
+  rageModeButton: {fileID: 488554076}
 --- !u!1 &1254411285
 GameObject:
   m_ObjectHideFlags: 0
@@ -11040,6 +11060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f623387f7724f8ca605944df4d7408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   healthBar: {fileID: 331093350}
 --- !u!54 &1316951193
 Rigidbody:
@@ -12905,6 +12926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f623387f7724f8ca605944df4d7408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   healthBar: {fileID: 1029612490}
 --- !u!54 &1577166057
 Rigidbody:
@@ -15951,6 +15973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f623387f7724f8ca605944df4d7408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   healthBar: {fileID: 893485239}
 --- !u!54 &1977635845
 Rigidbody:
@@ -17391,6 +17414,7 @@ GameObject:
   - component: {fileID: 919132149091229843}
   - component: {fileID: 919132149091229844}
   - component: {fileID: 919132149091229845}
+  - component: {fileID: 919132149091229846}
   m_Layer: 0
   m_Name: Character
   m_TagString: Character
@@ -17470,6 +17494,18 @@ MonoBehaviour:
   arrowSpeed: 10
   arcHeight: 3
   closeRangeThreshold: 6
+--- !u!114 &919132149091229846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149091229841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb741dc5691194e519d1c5bfa180351c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &967253209447048353
 GameObject:
   m_ObjectHideFlags: 0
@@ -21833,6 +21869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f623387f7724f8ca605944df4d7408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 100
   healthBar: {fileID: 1326361503}
 --- !u!54 &7607557983840068676
 Rigidbody:
