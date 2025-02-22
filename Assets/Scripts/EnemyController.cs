@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+
 public class EnemyController : MonoBehaviour
 {
     public float health = 100;
     public Image healthBar;
-    private bool isBurning = false; // Yanık hasarı aktif mi?
-    private float burnDamage = 0; // Yanık hasarı miktarı
-    private float burnDuration = 0; // Yanık süresi
+    private bool isBurning = false;
+    private float burnDamage = 0; 
+    private float burnDuration = 0;
+    public static event System.Action<Transform> OnEnemyDied;
 
     public void TakeDamage(float damage)
     {
@@ -16,7 +18,7 @@ public class EnemyController : MonoBehaviour
 
         if (health <= 0)
         {
-            Respawn();
+            Die();
         }
     }
 
@@ -36,14 +38,23 @@ public class EnemyController : MonoBehaviour
         float timer = 0f;
         while (timer < burnDuration)
         {
-            TakeDamage(burnDamage); // Yanık hasarı uygula
-            timer += 1f; // Her saniye hasar ver
+            TakeDamage(burnDamage); 
+            timer += 1f; 
             yield return new WaitForSeconds(1f);
         }
         isBurning = false;
     }
 
-    void Respawn()
+    private void Die()
+    {
+        // Enemy öldüğünde olayı tetikle
+        OnEnemyDied?.Invoke(transform);
+
+        // Yeniden doğur
+        Respawn();
+    }
+
+    public void Respawn()
     {
         float z = Random.Range(-2.5f, 11.5f);
         float x = Random.Range(-4f, 4f);

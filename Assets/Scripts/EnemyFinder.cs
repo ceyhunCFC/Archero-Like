@@ -2,27 +2,30 @@ using UnityEngine;
 
 public class EnemyFinder : MonoBehaviour
 {
-    private GameObject nearestEnemy; 
-    public float detectionRange = 10f; 
-    [HideInInspector] public Transform targetEnemy; 
-    private CharacterController controller;  
+    private GameObject nearestEnemy;
+    public float detectionRange = 10f;
+    [HideInInspector] public Transform targetEnemy;
+    private CharacterController controller;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
-      //  EnemyController.OnEnemyDied += HandleEnemyDied;
+        // Enemy öldüğünde HandleEnemyDied metodunu dinle
+        EnemyController.OnEnemyDied += HandleEnemyDied;
     }
 
     void OnDestroy()
     {
-       // EnemyController.OnEnemyDied -= HandleEnemyDied;
+        // Enemy öldüğünde dinlemeyi bırak
+        EnemyController.OnEnemyDied -= HandleEnemyDied;
     }
 
+    // Enemy öldüğünde çağrılacak metod
     void HandleEnemyDied(Transform enemyTransform)
     {
         if (targetEnemy == enemyTransform)
         {
-            targetEnemy = null;
+            targetEnemy = null; // Hedef enemy'yi null yap
         }
     }
 
@@ -30,7 +33,7 @@ public class EnemyFinder : MonoBehaviour
     {
         if (targetEnemy != null)
         {
-            LookAtEnemy();  
+            LookAtEnemy();
         }
         else if (controller.state == 0)
         {
@@ -55,7 +58,7 @@ public class EnemyFinder : MonoBehaviour
                 {
                     nearestEnemy = enemy.gameObject;
                     targetEnemy = enemy.transform;
-                    minDistance = distanceToEnemy;  
+                    minDistance = distanceToEnemy;
                 }
             }
         }
@@ -65,7 +68,7 @@ public class EnemyFinder : MonoBehaviour
     {
         controller.state = 2;
         Vector3 directionToEnemy = targetEnemy.position - transform.position;
-        directionToEnemy.y = 0;  
+        directionToEnemy.y = 0;
         Quaternion lookRotation = Quaternion.LookRotation(directionToEnemy);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }

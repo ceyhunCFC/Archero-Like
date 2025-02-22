@@ -253,7 +253,8 @@ public class AttackController : MonoBehaviour
     private Vector3 CalculateArcVelocity(Vector3 start, Vector3 end, float arcHeight)
     {
         Vector3 displacement = end - start;
-        float horizontalDistance = new Vector3(displacement.x, 5, displacement.z).magnitude;
+        displacement *= 1.1f;
+        float horizontalDistance = new Vector3(displacement.x, 0, displacement.z).magnitude;
         float verticalDistance = displacement.y;
 
         float gravity = Physics.gravity.magnitude;
