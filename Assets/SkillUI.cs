@@ -1,16 +1,16 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class SkillUI : MonoBehaviour
 {
-    public Button PanelButton;
-    public Button arrowMultiplicationButton;
-    public Button bounceDamageButton;
-    public Button burnDamageButton;
-    public Button attackSpeedButton;
-    public Button rageModeButton;
+    public Toggle arrowMultiplicationToggle;
+    public Toggle bounceDamageToggle;
+    public Toggle burnDamageToggle;
+    public Toggle attackSpeedToggle;
+    public Toggle rageModeToggle;
 
+    public ToggleGroup skillToggleGroup; // Toggle'ları gruplamak için ToggleGroup
     private bool isOn = false;
     private RectTransform panelRectTransform;
     private Vector2 targetPosition;
@@ -20,15 +20,33 @@ public class SkillUI : MonoBehaviour
     {
         panelRectTransform = GetComponent<RectTransform>();
     }
-
     void Start()
     {
-        PanelButton.onClick.AddListener(() => TogglePanel());
-        arrowMultiplicationButton.onClick.AddListener(() => ToggleSkill(SkillType.ArrowMultiplication));
-        bounceDamageButton.onClick.AddListener(() => ToggleSkill(SkillType.BounceDamage));
-        burnDamageButton.onClick.AddListener(() => ToggleSkill(SkillType.BurnDamage));
-        attackSpeedButton.onClick.AddListener(() => ToggleSkill(SkillType.AttackSpeedIncrease));
-        rageModeButton.onClick.AddListener(() => ToggleSkill(SkillType.RageMode));
+        // Toggle'ları ToggleGroup'a ekle
+        arrowMultiplicationToggle.group = skillToggleGroup;
+        bounceDamageToggle.group = skillToggleGroup;
+        burnDamageToggle.group = skillToggleGroup;
+        attackSpeedToggle.group = skillToggleGroup;
+        rageModeToggle.group = skillToggleGroup;
+
+        // Toggle'ların değer değişikliğini dinle
+        arrowMultiplicationToggle.onValueChanged.AddListener((isOn) => ToggleSkill(SkillType.ArrowMultiplication, isOn));
+        bounceDamageToggle.onValueChanged.AddListener((isOn) => ToggleSkill(SkillType.BounceDamage, isOn));
+        burnDamageToggle.onValueChanged.AddListener((isOn) => ToggleSkill(SkillType.BurnDamage, isOn));
+        attackSpeedToggle.onValueChanged.AddListener((isOn) => ToggleSkill(SkillType.AttackSpeedIncrease, isOn));
+        rageModeToggle.onValueChanged.AddListener((isOn) => ToggleSkill(SkillType.RageMode, isOn));
+    }
+
+    private void ToggleSkill(SkillType skillType, bool isOn)
+    {
+        if (isOn)
+        {
+            SkillManager.SetActiveSkill(skillType); // Skill'i aç
+        }
+        else
+        {
+            SkillManager.SetActiveSkill(SkillType.None); // Skill'i kapat
+        }
     }
 
     public void TogglePanel()
@@ -68,16 +86,4 @@ public class SkillUI : MonoBehaviour
         panelRectTransform.anchoredPosition = targetPos;
     }
 
-    private void ToggleSkill(SkillType skillType)
-    {
-        // Eğer seçilen skill zaten aktifse, devre dışı bırak
-        if (SkillManager.activeSkill == skillType)
-        {
-            SkillManager.SetActiveSkill(SkillType.None); // Skill'i kapat
-        }
-        else
-        {
-            SkillManager.SetActiveSkill(skillType); // Skill'i aç
-        }
-    }
 }
