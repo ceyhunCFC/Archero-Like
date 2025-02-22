@@ -220,7 +220,7 @@ public class AttackController : MonoBehaviour
         // Örnek: Ok çoğaltma skill'i 4 ok fırlatsın
         for (int i = 0; i < 4; i++)
         {
-            GameObject arrow = Instantiate(arrowPrefab, new Vector3(transform.position.x + (i * 0.4f), transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
+            GameObject arrow = Instantiate(arrowPrefab, new Vector3((transform.position.x + (i * 0.4f))-0.5f, transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
             Rigidbody arrowRb = arrow.GetComponent<Rigidbody>();
             
             ArrowRotation arrowRotation = arrow.GetComponent<ArrowRotation>();
@@ -229,7 +229,7 @@ public class AttackController : MonoBehaviour
                 arrowRotation.SetBounceDamage(true,2);
                 arrowRotation.SetBurnDamage(true,6);
             }
-
+ 
             if (arrowRb != null)
             {
                 Vector3 targetPosition = enemyFinder.targetEnemy.transform.position + Vector3.up * 1f;
