@@ -205,12 +205,6 @@ public class AttackController : MonoBehaviour
         }
     }
     
-    
-   void AttackSpeedIncreaseAttack()
-    {
-        RegularAttack(true);
-    }
-
 
     void RageModeAttack()
     {

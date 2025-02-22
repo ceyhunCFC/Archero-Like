@@ -33,6 +33,7 @@ public class CharacterController : MonoBehaviour
         {
             enemyFinder.targetEnemy = null;
             state = 1;
+            animator.speed = 1;
             transform.rotation = Quaternion.LookRotation(rb.velocity);
         }
         else if (enemyFinder.targetEnemy == null)
